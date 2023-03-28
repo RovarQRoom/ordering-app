@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { OrdersController } from './orders.controller';
-import { OrdersService } from './orders.service';
+import { OrdersController } from './controller/orders.controller';
+import { OrdersService } from './service/orders.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from '@app/common/database/database.module';
