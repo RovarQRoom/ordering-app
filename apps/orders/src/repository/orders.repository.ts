@@ -4,6 +4,7 @@ import { Order } from '../schemas/order.schema';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { IOrdersRepository } from '../interface/Iorders.interface';
+import { CreateOrdersDto } from '../Dto/create-order.dto';
 
 
 @Injectable()
@@ -15,4 +16,7 @@ export class OrdersRepository extends AbstractRepository<Order> implements IOrde
     ) {
         super(orderModel, connection);
     }
+  createOrders(createOrdersDto: CreateOrdersDto): Promise<Order> {
+    throw new Error('Method not implemented.');
+  }
 }
