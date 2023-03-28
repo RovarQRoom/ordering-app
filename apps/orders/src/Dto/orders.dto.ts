@@ -13,3 +13,17 @@ export class CreateOrdersDto {
  phonenumber:string;
 
 }
+
+export class ReadOrdersDto {
+
+ @IsString()
+ @IsNotEmpty()
+ name: string;
+
+ @IsPositive()
+ price: number;
+
+ @IsPhoneNumber("IQ")
+ phonenumber:string;
+
+}
