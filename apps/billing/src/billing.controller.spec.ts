@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BillingController } from './billing.controller';
-import { BillingService } from './billing.service';
+import { BillingController } from './controller/billing.controller';
+import { BillingService } from './service/billing.service';
 
 describe('BillingController', () => {
   let billingController: BillingController;
