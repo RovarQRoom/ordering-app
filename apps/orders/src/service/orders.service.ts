@@ -4,6 +4,7 @@ import { OrdersRepository } from '../repository/orders.repository';
 import { IOrdersService } from '../interface/Iorders.service.interface';
 import { BILLING_SERVICE } from '../constants/services';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class OrdersService implements IOrdersService {
@@ -13,8 +14,19 @@ export class OrdersService implements IOrdersService {
     ) {}
 
   async createOrders(createOrdersDto: CreateOrdersDto): Promise<CreateOrdersDto> {
-    await this.ordersRepository.create(createOrdersDto);
-    return createOrdersDto;
+    const session = await this.ordersRepository.startTransaction();
+    try {
+      const createOrder = await this.ordersRepository.create(createOrdersDto);
+      await lastValueFrom(
+        this.billingClient.emit('order_created', createOrder)
+      );
+      await session.commitTransaction();
+      return createOrdersDto;
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    }
+    
   }
 
   async getOrders(): Promise<ReadOrdersDto[]> {
